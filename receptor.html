@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estudio - Camtin Audio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <!-- PeerJS para señalización WebRTC gratis sin servidor propio -->
+    <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
+</head>
+
+<body>
+    <div class="background-overlay"></div>
+    <div class="glass-panel">
+        <div class="header">
+            <h1>Receptor de Estudio</h1>
+            <p>Esperando conexión del móvil...</p>
+        </div>
+
+        <div class="status-indicator">
+            <div id="ledIndicator" class="led-red"></div>
+            <span id="statusLabel">Offline - Generando ID...</span>
+        </div>
+
+        <div class="info-box">
+            <p>ID de Conexión para el móvil:</p>
+            <h2 id="peerIdDisplay">CARGANDO...</h2>
+            <p class="small-text">(Ingresa este ID exacto en el celular)</p>
+        </div>
+
+        <audio id="remoteAudio" autoplay controls style="display: none;"></audio>
+
+        <div class="tips">
+            <p>Asegúrate de tener los parlantes encendidos. El audio se reproducirá automáticamente cuando el celular se
+                conecte.</p>
+        </div>
+    </div>
+    <script src="receptor.js"></script>
+</body>
+
+</html>
