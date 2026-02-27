@@ -2,6 +2,7 @@ const peerIdDisplay = document.getElementById('peerIdDisplay');
 const ledIndicator = document.getElementById('ledIndicator');
 const statusLabel = document.getElementById('statusLabel');
 const remoteAudio = document.getElementById('remoteAudio');
+const manualPlayBtn = document.getElementById('manualPlayBtn');
 
 // Inicializar PeerJS (Usa el servidor público gratuito de PeerJS por defecto)
 // Generamos un ID aleatorio de 4 dígitos para que sea fácil de copiar
@@ -40,19 +41,31 @@ peer.on('call', (call) => {
         remoteAudio.srcObject = remoteStream;
 
         // Asegurarse de que reproduzca
-        remoteAudio.play().catch(e => {
-            console.error("No se pudo auto-reproducir (políticas del navegador). Requiere interacción UI.", e);
-            // Intentamos mutado por politicas de chrome
-            remoteAudio.muted = true;
-            remoteAudio.play().then(() => {
-                remoteAudio.muted = false;
-            });
+        remoteAudio.play().then(() => {
+            console.log("Audio reproduciendo automáticamente.");
+        }).catch(e => {
+            console.error("El navegador bloqueó la reproducción automática. Se requiere hacer clic en el botón.", e);
+            statusLabel.textContent = 'Audio bloqueado. Haz clic abajo';
+            ledIndicator.className = 'led-red';
+
+            // Mostrar botón para que el usuario fuerce el desbloqueo del audio
+            manualPlayBtn.style.display = 'block';
         });
+    });
+
+    // Evento para forzar playback manual
+    manualPlayBtn.addEventListener('click', () => {
+        remoteAudio.play().then(() => {
+            manualPlayBtn.style.display = 'none';
+            statusLabel.textContent = 'Conectado - Reproduciendo';
+            ledIndicator.className = 'led-green';
+        }).catch(err => alert("Error al intentar reproducir el audio: " + err.message));
     });
 
     call.on('close', () => {
         ledIndicator.className = 'led-yellow';
         statusLabel.textContent = 'En espera...';
         remoteAudio.srcObject = null;
+        manualPlayBtn.style.display = 'none';
     });
 });

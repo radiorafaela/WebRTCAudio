@@ -30,7 +30,13 @@
             <p class="small-text">(Ingresa este ID exacto en el celular)</p>
         </div>
 
-        <audio id="remoteAudio" autoplay controls style="display: none;"></audio>
+
+        <!-- Hacemos visible el control de audio para pruebas y agregamos un botón manual para saltar las politicas del navegador -->
+        <audio id="remoteAudio" autoplay controls style="width: 100%; margin-top: 15px; border-radius: 10px;"></audio>
+
+        <button id="manualPlayBtn" class="premium-button" style="margin-top: 15px; display: none;">
+            <span id="btnText">Forzar Reproducción 🔊</span>
+        </button>
 
         <div class="tips">
             <p>Asegúrate de tener los parlantes encendidos. El audio se reproducirá automáticamente cuando el celular se
